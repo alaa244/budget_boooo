@@ -1,5 +1,5 @@
 
- 💻Unique Project Name & logo :- Buget Boooo - <br> <br> !
+ 💻Unique Project Name & logo :- Buget Boooo -! <br> <br> 
 ---
 This is a real-time budget application that allows users to track their expenses and income in real-time. It is designed to be easy to use and provides users with an intuitive interface for managing their finances. This is a collaborative project from South Valley University in Construct Week With the 4 team members within 3 Days.
 ---
