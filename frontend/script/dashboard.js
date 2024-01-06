@@ -15,23 +15,15 @@ window.addEventListener("load", () => {
   }
 });
 
-
+const budgetInput = document.getElementById("d-budgetئ");
 const chooseExpense = document.getElementById("choose-expense");
 const expenseAmt = document.getElementById("expense-amout");
 const expenseSubmitBtn = document.getElementById("expense-submit-form");
 const otherExpenseHolder = document.getElementById("expense-otherName-wrapper");
-
-const chooseIncome = document.getElementById("choose-income");
-const incomeAmt = document.getElementById("income-amout");
-const incomeSubmitBtn = document.getElementById("income-submit-form");
-const otherIncomeHolder = document.getElementById("income-otherName-wrapper");
-
 const displayBudget = document.getElementById("budget-amount-input");
 const displayExpense = document.getElementById("expense-amount-input");
 const displayBalance = document.getElementById("balance-amount-input");
 const historyContainer = document.getElementById("recent-expenses-history");
-const historyContainer2 = document.getElementById("recent-income-history");
-
 let dashLoader = document.getElementById("dash-loading-container");
 let dashOverlay = document.getElementById("over-lay-dash");
 let socket;
@@ -105,99 +97,6 @@ socket.on("defaultBudget", (data) => {
 });
 
 // Sending budget amount
-//Adding income
-incomeSubmitBtn.addEventListener("submit", (e) => {
-  e.preventDefault();
-  if (!token)
-    return Swal.fire({
-      title: "Please Login!",
-      text: "",
-      icon: "error",
-    });
-
-  if (incomeAmt.value <= 0) {
-    return Swal.fire({
-      title: "Amount must be greater than 0!",
-      text: "",
-      icon: "error",
-    });
-  }
-
-  let incomeNameHolder;
-
-  if (chooseIncome.value === "other") {
-    const incomeName = document.getElementById("income-title");
-    incomeNameHolder = incomeName.value;
-    otherIncomeHolder.innerHTML = null;
-  } else {
-    incomeNameHolder = chooseIncome.value;
-  }
-
-  let income = {
-    transactionDetails: {
-      name: incomeNameHolder,
-      amount: +incomeAmt.value,
-    },
-    incomeAmt: +incomeAmt.value,
-  };
-
-  dashOverlay.style.display = "block";
-  dashLoader.style.display = "block";
-  socket.emit("income", JSON.stringify(income));
-  incomeSubmitBtn.reset();
-});
-
-// Getting the Updated Income
-socket.on("incomeDeduct", (data) => {
-  dashOverlay.style.display = "none";
-  dashLoader.style.display = "none";
-  const updatedIncome = JSON.parse(data);
-
-  // Displaying the Stats
-  displayStats(updatedIncome);
-
-  // Display Transactions
-  if (!updatedIncome.transactions[0]) {
-    emptyRecentHistory();
-  } else {
-    showRecentHistory(updatedIncome.transactions);
-  }
-
-  // Checking if the income > budget
-  if (updatedIncome.balance < 0) {
-    Swal.fire({
-      title: "Income exceeded!",
-      text: "",
-      icon: "warning",
-    });
-  }
-});
-
-// Getting the Updated income history
-socket.on("updatedIncome", (data) => {
-  dashOverlay.style.display = "none";
-  dashLoader.style.display = "none";
-  const updatedHistory = JSON.parse(data);
-
-  // Displaying the Stats
-  displayStats(updatedHistory);
-
-  // Display Transactions
-  if (!updatedHistory.transactions[0]) {
-    emptyRecentHistory();
-  } else {
-    showRecentHistory(updatedHistory.transactions);
-  }
-
-  // Checking if the expenses > budget
-  if (updatedHistory.balance < 0) {
-    Swal.fire({
-      title: "Expenses exceeded budget!",
-      text: "",
-      icon: "warning",
-    });
-  }
-});
 
 
 // getting the updated data
