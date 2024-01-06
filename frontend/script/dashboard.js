@@ -14,8 +14,9 @@ window.addEventListener("load", () => {
     });
   }
 });
+const incomeTable = document.getElementById("recent-income-history");
 
-const budgetInput = document.getElementById("d-budgetئ");
+const budgetInput = document.getElementById("income-budget");
 const chooseExpense = document.getElementById("choose-expense");
 const expenseAmt = document.getElementById("expense-amout");
 const expenseSubmitBtn = document.getElementById("expense-submit-form");
@@ -74,6 +75,7 @@ socket.on("connect_error", (error) => {
 
 // Default Budget
 socket.on("defaultBudget", (data) => {
+  console.log(data)
   dashOverlay.style.display = "none";
   dashLoader.style.display = "none";
   if (data) {
@@ -97,13 +99,60 @@ socket.on("defaultBudget", (data) => {
 });
 
 // Sending budget amount
+function budgetBtn() {
+  if (!token) {
+    return Swal.fire({
+      title: "Please Login!",
+      text: "",
+      icon: "error",
+    });
+  }
 
+  let budgetamt = parseInt(displayBudget.innerHTML)+parseInt(budgetInput.value);
+  
+  if (!budgetamt)
+    return Swal.fire({
+      title: "Please provide budget",
+      icon: "warning",
+    });
+
+  dashOverlay.style.display = "block";
+  dashLoader.style.display = "block";
+  socket.emit("budgetAmt", budgetamt);
+  budgetInput.value = null;
+
+
+  
+
+
+}
 
 // getting the updated data
+socket.on("updatedBudget", (data) => {
+console.log(data)
+  dashOverlay.style.display = "none";
+  dashLoader.style.display = "none";
+  const updatedBudget = JSON.parse(data);
 
+  // Displaying the Stats
+  displayStats(updatedBudget);
 
+  if (!updatedBudget.transactions[0]) {
+    emptyRecentHistory();
+  } else {
+    showRecentHistory(updatedBudget.transactions);
+  }
+});
 
-
+chooseExpense.addEventListener("change", () => {
+  if (chooseExpense.value === "other") {
+    otherExpenseHolder.innerHTML = null;
+    otherExpenseHolder.innerHTML =
+      '<input type="text" id="expense-title" class="budget-input-box" placeholder="Expenses" pattern="^(?![0-9]+$).+" title="Expected valid expense" required>';
+  } else {
+    otherExpenseHolder.innerHTML = null;
+  }
+});
 
 // Adding the expenses
 expenseSubmitBtn.addEventListener("submit", (e) => {
