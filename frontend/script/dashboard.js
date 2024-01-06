@@ -120,11 +120,6 @@ function budgetBtn() {
   dashLoader.style.display = "block";
   socket.emit("budgetAmt", budgetamt);
   budgetInput.value = null;
-
-
-  
-
-
 }
 
 // getting the updated data
