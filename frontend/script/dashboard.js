@@ -14,14 +14,12 @@ window.addEventListener("load", () => {
     });
   }
 });
-const incomeTable = document.getElementById("recent-income-history");
-const budgetInput = document.getElementById("income-budget");
+
+const budgetInput = document.getElementById("d-budget");
 const chooseExpense = document.getElementById("choose-expense");
-const chooseIncome = document.getElementById("choose-income");
 const expenseAmt = document.getElementById("expense-amout");
 const expenseSubmitBtn = document.getElementById("expense-submit-form");
 const otherExpenseHolder = document.getElementById("expense-otherName-wrapper");
-const otherIncomeHolder = document.getElementById("income-otherName-wrapper");
 const displayBudget = document.getElementById("budget-amount-input");
 const displayExpense = document.getElementById("expense-amount-input");
 const displayBalance = document.getElementById("balance-amount-input");
@@ -31,7 +29,6 @@ let dashOverlay = document.getElementById("over-lay-dash");
 let socket;
 let popupForm = document.getElementById("popupForm");
 let closePopup = document.getElementById("close-popup");
-
 
 dashOverlay.style.display = "block";
 dashLoader.style.display = "block";
@@ -77,7 +74,6 @@ socket.on("connect_error", (error) => {
 
 // Default Budget
 socket.on("defaultBudget", (data) => {
-  console.log(data)
   dashOverlay.style.display = "none";
   dashLoader.style.display = "none";
   if (data) {
@@ -110,8 +106,7 @@ function budgetBtn() {
     });
   }
 
-  let budgetamt = parseInt(displayBudget.innerHTML)+parseInt(budgetInput.value);
-  
+  let budgetamt = +budgetInput.value;
   if (!budgetamt)
     return Swal.fire({
       title: "Please provide budget",
@@ -122,12 +117,10 @@ function budgetBtn() {
   dashLoader.style.display = "block";
   socket.emit("budgetAmt", budgetamt);
   budgetInput.value = null;
-
 }
 
 // getting the updated data
 socket.on("updatedBudget", (data) => {
-console.log(data)
   dashOverlay.style.display = "none";
   dashLoader.style.display = "none";
   const updatedBudget = JSON.parse(data);
@@ -142,17 +135,6 @@ console.log(data)
   }
 });
 
-chooseIncome.addEventListener("change", () => {
-  if (chooseIncome.value === "other") {
-    otherIncomeHolder.innerHTML = null;
-    otherIncomeHolder.innerHTML =
-      '<input type="text" id="expense-title" class="budget-input-box" placeholder="Income" pattern="^(?![0-9]+$).+" title="Expected valid expense" required>';
-  } else {
-    otherIncomeHolder.innerHTML = null;
-  }
-});
-
-
 chooseExpense.addEventListener("change", () => {
   if (chooseExpense.value === "other") {
     otherExpenseHolder.innerHTML = null;
@@ -162,8 +144,6 @@ chooseExpense.addEventListener("change", () => {
     otherExpenseHolder.innerHTML = null;
   }
 });
-
-
 
 // Adding the expenses
 expenseSubmitBtn.addEventListener("submit", (e) => {
