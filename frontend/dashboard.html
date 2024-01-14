@@ -51,34 +51,22 @@
 
     <div class="dash-container">
         <div class="left-cont">
-            <div class="expense-input budget-box">
-                <form id="budget-submit-form">
-                    <label for="choose-income">Add income</label>
-                    <select class="budget-input-box" id="choose-income" required>
-                        <option value="">Budget</option>
-                        <option value="Primary job">Primary job</option>
-                        <option value="Part-time job">Part-time job</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="other">other</option>
-                    </select>
-                    <div id="income-otherName-wrapper"></div>
-                    <label for="income-budget">Set Budget</label>
-                    <input type="number" id="income-budget" placeholder="0.00" class="budget-input-box">
-                    <button id="add-budget" type="submit"  onclick="budgetBtn()" class="add-budget-button">Add Income</button>
-                </form>
-                
-                
+            <div class="budget-input budget-box">
+                <label for="d-budget">Set Budget</label>
+                <div><input type="number" id="d-budget" placeholder="0.00" class="budget-input-box"></div>
+                <button id="add-budget" onclick="budgetBtn()" class="add-budget-button">Add Budget</button>
             </div>
+            
             <div class="expense-input budget-box">
                 <form id="expense-submit-form">
                     <label for="choose-expense">Add Expenses</label>
                     <select class="budget-input-box" id="choose-expense" required>
                         <option value="">Expenses</option>
-                        <option value="gas bill">Electricity bill</option>
-                        <option value="water bill">Water bill</option>
-                        <option value="Internet bill">Internet bill</option>
-                        <option value="Fuel bill">Fuel bill</option>
-                        <option value="Restaurant bill">Restaurant bill</option>
+                        <option value="Food">Food</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Rent"> Rent</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Transportation">Transportation</option>
                         <option value="other">other</option>
                     </select>
                     <div id="expense-otherName-wrapper"></div>
@@ -113,25 +101,6 @@
                 </div>
             </div>
 
-
-            <div class="recent-income">
-                <table class="income-history">
-                    <thead>
-                        <tr>
-                            <th>Income Title</th>
-                            <th>Income Value</th>
-                            <th>Delete</th>
-                            <th>Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recent-income-history">
-                        <tr>
-                            <td colspan="3" style="text-align: center; font-size: 2rem;">No Recent Transactions</td>
-                           
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <div class="recent-expenses">
                 <table class="expenses-history">
                     <thead>
@@ -162,15 +131,6 @@
         <form id="popupForm">
             <input type="text" class="expense-edit-input" id="editName" />
             <input type="number" class="expense-edit-input" id="editAmount" />
-            <input type="submit" value="SAVE" />
-            <input type="button" value="CANCEL" id="close-popup">
-        </form>
-    </div>
-
-    <div id="income-update-container">
-        <form id="popupForm">
-            <input type="text" class="income-edit-input" id="editName" />
-            <input type="number" class="income-edit-input" id="editAmount" />
             <input type="submit" value="SAVE" />
             <input type="button" value="CANCEL" id="close-popup">
         </form>
